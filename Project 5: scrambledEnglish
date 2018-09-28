@@ -1,6 +1,8 @@
 import random
 import string
 
+punct = set(string.punctuation)
+
 # Næ í orð úr input og breyti í lista?
 def get_word_string(filename):
     try:
@@ -17,13 +19,23 @@ def scramble_string(word_string):
     listi = []              # tómur listi
     for i in word_string:
         if len(i) >= 4:
-            first = i[0]
-            last = i[-1]
-            word = list(i[1:-1])   # tek miðjuna úr öllum stökunum í listanum
-            random.shuffle(word)   # shuffla orðin
-            word = "".join(word)
-            word = first+word+last
-            listi.append(word)     # bæti orðin við listi (tóma listann)
+            if i[-1] in punct:
+                first = i[0]
+                last = i[-2:]
+                word = list(i[1:-2])  # tek miðjuna úr öllum stökunum í listanum
+                random.shuffle(word)  # shuffla orðin
+                word = "".join(word)
+                word = first + word + last
+                listi.append(word)  # bæti orðin við listi (tóma listann)
+
+            else:
+                first = i[0]
+                last = i[-1]
+                word = list(i[1:-1])   # tek miðjuna úr öllum stökunum í listanum
+                random.shuffle(word)   # shuffla orðin
+                word = "".join(word)
+                word = first+word+last
+                listi.append(word)     # bæti orðin við listi (tóma listann)
         else:
             listi.append(i)
 
